@@ -1,0 +1,25 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} | {{ .Site.Title }}{{ end }}</title>
+<meta name="description" content="{{ if .Description }}{{ .Description }}{{ else }}{{ .Site.Params.description }}{{ end }}">
+<link rel="preload" href="{{ "fonts/Mulish-Regular.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ "fonts/Mulish-Bold.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ "fonts/Mulish-Italic.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="{{ "fonts/Mulish-BoldItalic.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
+<script>
+    // Prevent flash of white in dark mode by applying theme immediately
+    (function() {
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (prefersDark) {
+            document.documentElement.classList.add('dark');
+            // Set background color immediately to prevent flash
+            document.documentElement.style.backgroundColor = '#1a1a1a';
+        } else {
+            document.documentElement.classList.add('light');
+            document.documentElement.style.backgroundColor = '#ffffff';
+        }
+    })();
+</script>
+<link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
+<link rel="stylesheet" href="{{ "css/chroma-xcode-dark.css" | relURL }}">
+<link rel="canonical" href="{{ .Permalink }}">

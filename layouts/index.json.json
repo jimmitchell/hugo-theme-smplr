@@ -1,0 +1,18 @@
+{
+  "title": {{ .Title | jsonify }},
+  "content": {{ .Content | plainify | jsonify }},
+  "permalink": {{ .Permalink | jsonify }},
+  "posts": [
+    {{- $posts := where .Site.RegularPages "Section" "posts" -}}
+    {{- if not $posts }}{{ $posts = .Site.RegularPages }}{{ end -}}
+    {{- range $index, $post := $posts -}}
+    {{- if $index }},{{ end }}
+    {
+      "title": {{ $post.Title | jsonify }},
+      "permalink": {{ $post.Permalink | jsonify }},
+      "date": {{ $post.Date.Format "2006-01-02" | jsonify }},
+      "summary": {{ $post.Summary | plainify | jsonify }}
+    }
+    {{- end -}}
+  ]
+}

@@ -1,0 +1,53 @@
+{{ define "main" }}
+<div class="container">    
+    <div class="posts-section">
+        <!-- <h2>Latest Posts</h2> -->
+        <div class="posts-list">
+            {{ $posts := where .Site.RegularPages "Section" "posts" }}
+            {{ if not $posts }}{{ $posts = .Site.RegularPages }}{{ end }}
+            {{ $paginator := .Paginate $posts 15 }}
+            {{ if $paginator.Pages }}
+            {{ range $paginator.Pages }}
+            <article class="post-item">
+                <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
+                <div class="post-meta">
+                    <time datetime="{{ .Date.Format "2006-01-02" }}">
+                        {{ $day := .Date.Format "2" }}
+                        {{ $dayInt := int $day }}
+                        {{ $suffix := "th" }}
+                        {{ if or (eq $dayInt 1) (eq $dayInt 21) (eq $dayInt 31) }}{{ $suffix = "st" }}{{ else if or (eq $dayInt 2) (eq $dayInt 22) }}{{ $suffix = "nd" }}{{ else if or (eq $dayInt 3) (eq $dayInt 23) }}{{ $suffix = "rd" }}{{ end }}
+                        {{ .Date.Format "Monday, January" }} {{ $dayInt }}{{ $suffix }}, {{ .Date.Format "2006" }}
+                    </time>
+                </div>
+                {{ if .Summary }}
+                <p class="post-summary">{{ .Summary }}</p>
+                {{ end }}
+            </article>
+            {{ end }}
+            {{ else }}
+            <p>No posts yet.</p>
+            {{ end }}
+        </div>
+        
+        {{ if gt $paginator.TotalPages 1 }}
+        <nav class="pagination pagination-post pagination-home">
+            {{ if $paginator.HasNext }}
+            <div class="pagination-item">
+                <a href="{{ $paginator.Next.URL }}">← Older</a>
+            </div>
+            {{ else }}
+            <div class="pagination-item"></div>
+            {{ end }}
+            
+            {{ if $paginator.HasPrev }}
+            <div class="pagination-item pagination-item-right">
+                <a href="{{ $paginator.Prev.URL }}">Newer →</a>
+            </div>
+            {{ else }}
+            <div class="pagination-item"></div>
+            {{ end }}
+        </nav>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

@@ -1,0 +1,43 @@
+{{ define "main" }}
+<div class="container">
+    <article class="post">
+        <header class="post-header">
+            <h1>{{ .Title }}</h1>
+            <div class="post-meta">
+                <time datetime="{{ .Date.Format "2006-01-02" }}">
+                    {{ $day := .Date.Format "2" }}
+                    {{ $dayInt := int $day }}
+                    {{ $suffix := "th" }}
+                    {{ if or (eq $dayInt 1) (eq $dayInt 21) (eq $dayInt 31) }}{{ $suffix = "st" }}{{ else if or (eq $dayInt 2) (eq $dayInt 22) }}{{ $suffix = "nd" }}{{ else if or (eq $dayInt 3) (eq $dayInt 23) }}{{ $suffix = "rd" }}{{ end }}
+                    {{ .Date.Format "Monday, January" }} {{ $dayInt }}{{ $suffix }}, {{ .Date.Format "2006" }}
+                </time>
+            </div>
+        </header>
+        <div class="post-content">
+            {{ .Content }}
+        </div>
+    </article>
+    
+    {{ if or .PrevInSection .NextInSection }}
+    <nav class="pagination pagination-post">
+        {{ if .PrevInSection }}
+        <div class="pagination-item">
+            <h4>Older</h4>
+            <a href="{{ .PrevInSection.Permalink }}">{{ .PrevInSection.Title }}</a>
+        </div>
+        {{ else }}
+        <div></div>
+        {{ end }}
+        
+        {{ if .NextInSection }}
+        <div class="pagination-item">
+            <h4>Newer</h4>
+            <a href="{{ .NextInSection.Permalink }}">{{ .NextInSection.Title }}</a>
+        </div>
+        {{ else }}
+        <div></div>
+        {{ end }}
+    </nav>
+    {{ end }}
+</div>
+{{ end }}

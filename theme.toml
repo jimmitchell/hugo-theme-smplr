@@ -1,0 +1,11 @@
+name = "smplr"
+license = "MIT"
+licenselink = "https://github.com/yourusername/hugo-theme-smplr/blob/main/LICENSE"
+description = "A simple and minimalistic Hugo theme"
+tags = ["minimal", "responsive", "dark-mode"]
+features = ["responsive", "dark-mode", "pagination"]
+min_version = "0.100.0"
+
+[author]
+  name = "Jim Mitchell"
+  homepage = "https://jimmitchell.org"

@@ -1,0 +1,29 @@
+{{ define "main" }}
+<div class="container">
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+    
+    <div class="archive-section">
+        {{ $posts := where .Site.RegularPages "Section" "posts" }}
+        {{ if not $posts }}{{ $posts = .Site.RegularPages }}{{ end }}
+        {{ if $posts }}
+        {{ $grouped := $posts.GroupByDate "2006" }}
+        {{ range $grouped }}
+        <div class="archive-year">
+            <h2>{{ .Key }}</h2>
+            <ul class="archive-list">
+                {{ range .Pages }}
+                <li>
+                    <a href="{{ .Permalink }}">{{ .Title }}</a>
+                    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+                </li>
+                {{ end }}
+            </ul>
+        </div>
+        {{ end }}
+        {{ else }}
+        <p>No posts to display in archive.</p>
+        {{ end }}
+    </div>
+</div>
+{{ end }}

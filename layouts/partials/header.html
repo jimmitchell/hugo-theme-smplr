@@ -1,0 +1,27 @@
+<header class="site-header">
+    <div class="header-container">
+        <a href="{{ .Site.BaseURL }}" class="site-title">{{ .Site.Title }}</a>
+        <nav class="site-nav" id="site-nav">
+            <ul class="nav-menu">
+                {{ $currentPage := . }}
+                {{ range site.Menus.main }}
+                <li class="{{ if .Children }}has-submenu{{ end }}">
+                    <a href="{{ .URL }}">{{ .Name }}</a>
+                    {{ if .Children }}
+                    <ul class="nav-submenu">
+                        {{ range .Children }}
+                        <li><a href="{{ .URL }}">{{ .Name }}</a></li>
+                        {{ end }}
+                    </ul>
+                    {{ end }}
+                </li>
+                {{ end }}
+            </ul>
+        </nav>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</header>

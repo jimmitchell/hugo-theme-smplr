@@ -1,0 +1,83 @@
+{{ $destination := .Destination | safeURL }}
+{{ $image := .Page.Resources.GetMatch $destination }}
+
+{{ $qualitySettings := 85 }}
+{{ $resampleFilter := "Lanczos" }}
+
+{{ if $image }}
+  {{/* Image found in page resources */}}
+  {{ $tiny := $image.Resize (printf "400x webp q%d %s" $qualitySettings $resampleFilter) }}
+  {{ $small := $image.Resize (printf "800x webp q%d %s" $qualitySettings $resampleFilter) }}
+  {{ $medium := $image.Resize (printf "1200x webp q%d %s" $qualitySettings $resampleFilter) }}
+  
+  <picture>
+    <source 
+      media="(max-width: 300px)"
+      srcset="{{ $tiny.RelPermalink }}"
+      type="image/webp"
+    >
+    <source 
+      media="(max-width: 600px)"
+      srcset="{{ $small.RelPermalink }}"
+      type="image/webp"
+    >
+    <source 
+      srcset="{{ $medium.RelPermalink }}"
+      type="image/webp"
+    >
+    <img 
+      src="{{ $medium.RelPermalink }}" 
+      alt="{{ .Text }}"
+      width="{{ $image.Width }}"
+      height="{{ $image.Height }}"
+      loading="lazy"
+      decoding="async"
+      fetchpriority="low"
+    >
+  </picture>
+{{ else }}
+  {{/* Fallback for images not in page resources */}}
+  {{ $externalImage := resources.Get (printf "images/%s" .Destination) }}
+  
+  {{ if $externalImage }}
+    {{/* Image found in global assets/images directory */}}
+    {{ $tiny := $externalImage.Resize (printf "400x webp q%d %s" $qualitySettings $resampleFilter) }}
+    {{ $small := $externalImage.Resize (printf "800x webp q%d %s" $qualitySettings $resampleFilter) }}
+    {{ $medium := $externalImage.Resize (printf "1200x webp q%d %s" $qualitySettings $resampleFilter) }}
+    
+    <picture>
+      <source 
+        media="(max-width: 300px)"
+        srcset="{{ $tiny.RelPermalink }}"
+        type="image/webp"
+      >
+      <source 
+        media="(max-width: 600px)"
+        srcset="{{ $small.RelPermalink }}"
+        type="image/webp"
+      >
+      <source 
+        srcset="{{ $medium.RelPermalink }}"
+        type="image/webp"
+      >
+      <img 
+        src="{{ $medium.RelPermalink }}" 
+        alt="{{ .Text }}"
+        width="{{ $externalImage.Width }}"
+        height="{{ $externalImage.Height }}"
+        loading="lazy"
+        decoding="async"
+        fetchpriority="low"
+      >
+    </picture>
+  {{ else }}
+    {{/* Fallback to original Markdown image syntax */}}
+    <img 
+      src="{{ .Destination }}" 
+      alt="{{ .Text }}"
+      loading="lazy"
+      decoding="async"
+      fetchpriority="low"
+    >
+  {{ end }}
+{{ end }}
