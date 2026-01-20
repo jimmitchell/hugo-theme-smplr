@@ -16,13 +16,13 @@ A clean, minimalistic Hugo theme with dark mode support, mobile-responsive desig
 1. Add the theme to your Hugo site:
 
 ```bash
-git submodule add https://github.com/yourusername/hugo-theme-smplr themes/smplr
+git submodule add https://github.com/jimmitchell/hugo-theme-smplr themes/smplr
 ```
 
 Or clone directly:
 
 ```bash
-git clone https://github.com/yourusername/hugo-theme-smplr themes/smplr
+git clone https://github.com/jimmitchell/hugo-theme-smplr themes/smplr
 ```
 
 2. Add the theme to your `config.toml`:
