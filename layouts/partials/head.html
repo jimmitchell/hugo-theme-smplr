@@ -34,7 +34,6 @@
 <link crossorigin="anonymous" href="{{ $secureStylesheet.RelPermalink }}" integrity="{{ $secureStylesheet.Data.Integrity }}" rel="preload stylesheet preconnect" as="style">
 {{- end }}
 {{- else }}
-{{- /* Fallback if resources not found */ }}
 <link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
 <link rel="stylesheet" href="{{ "css/chroma-xcode-dark.css" | relURL }}">
 {{- end }}
