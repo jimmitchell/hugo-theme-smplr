@@ -1,8 +1,12 @@
 {{- $mainJS := resources.Get "js/main.js" }}
+{{- if $mainJS }}
 {{- $script := $mainJS | resources.Minify }}
 {{- if eq hugo.Environment "development" }}
 <script src="{{ $script.RelPermalink }}"></script>
 {{- else }}
 {{- $secureScript := $script | resources.Fingerprint "sha512" }}
 <script src="{{ $secureScript.RelPermalink }}" integrity="{{ $secureScript.Data.Integrity }}" crossorigin="anonymous"></script>
+{{- end }}
+{{- else }}
+<script src="{{ "js/main.js" | relURL }}"></script>
 {{- end }}
