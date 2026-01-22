@@ -22,11 +22,20 @@
 </script>
 {{- $mainCSS := resources.Get "css/main.css" }}
 {{- $chromaCSS := resources.Get "css/chroma-xcode-dark.css" }}
-{{- $stylesheet := slice $mainCSS $chromaCSS | resources.Concat "css/styles.css" | resources.Minify }}
+{{- $cssFiles := slice }}
+{{- if $mainCSS }}{{ $cssFiles = $cssFiles | append $mainCSS }}{{ end }}
+{{- if $chromaCSS }}{{ $cssFiles = $cssFiles | append $chromaCSS }}{{ end }}
+{{- if $cssFiles }}
+{{- $stylesheet := $cssFiles | resources.Concat "css/styles.css" | resources.Minify }}
 {{- if eq hugo.Environment "development" }}
 <link crossorigin="anonymous" href="{{ $stylesheet.RelPermalink }}" rel="preload stylesheet preconnect" as="style">
 {{- else }}
 {{- $secureStylesheet := $stylesheet | resources.Fingerprint "sha512" }}
 <link crossorigin="anonymous" href="{{ $secureStylesheet.RelPermalink }}" integrity="{{ $secureStylesheet.Data.Integrity }}" rel="preload stylesheet preconnect" as="style">
+{{- end }}
+{{- else }}
+{{- /* Fallback if resources not found */ }}
+<link rel="stylesheet" href="{{ "css/main.css" | relURL }}">
+<link rel="stylesheet" href="{{ "css/chroma-xcode-dark.css" | relURL }}">
 {{- end }}
 <link rel="canonical" href="{{ .Permalink }}">
