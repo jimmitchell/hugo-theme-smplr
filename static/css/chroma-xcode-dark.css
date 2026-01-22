@@ -3,7 +3,7 @@
 /* Background */ .bg { color:#fff;background-color:#1f1f24; }
 /* PreWrapper */ .chroma { 
     color:#fff;
-    background-color:#000 !important;
+    background-color:#111 !important;
     padding: 1.25rem;
     border-radius: 6px;
     overflow-x: auto;
