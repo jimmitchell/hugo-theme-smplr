@@ -192,7 +192,7 @@ body {
 }
 
 .header-container {
-    max-width: 76rem;
+    max-width: 80rem;
     margin: 0 auto;
     padding: 3rem;
     display: flex;
@@ -336,7 +336,7 @@ body {
 
 /* Container */
 .container {
-    max-width: 76rem;
+    max-width: 80rem;
     margin: 0 auto;
     padding: 3rem 3rem 1.5rem 3rem;
 }
@@ -626,7 +626,7 @@ body {
 
 /* Single Post */
 .post {
-    max-width: 76rem;
+    max-width: 80rem;
     margin: 0 auto;
 }
 
