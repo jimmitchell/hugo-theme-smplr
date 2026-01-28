@@ -116,32 +116,32 @@ textarea:not([rows]) {
 /* Mulish Font Face */
 
 @font-face {
-    font-family: "Mulish";
-    src: url("/fonts/Mulish-Regular.woff2") format("woff2");
+    font-family: "GTW";
+    src: url("/fonts/GT-W-Regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Mulish";
-    src: url("/fonts/Mulish-Italic.woff2") format("woff2");
+    font-family: "GTW";
+    src: url("/fonts/GT-W-Oblique.woff2") format("woff2");
     font-weight: 400;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Mulish";
-    src: url("/fonts/Mulish-Bold.woff2") format("woff2");
+    font-family: "GTW";
+    src: url("/fonts/GT-W-Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Mulish";
-    src: url("/fonts/Mulish-BoldItalic.woff2") format("woff2");
+    font-family: "GTW";
+    src: url("/fonts/GT-W-Bold-Oblique.woff2") format("woff2");
     font-weight: 700;
     font-style: italic;
     font-display: swap;
@@ -155,7 +155,7 @@ textarea:not([rows]) {
 }
 
 body {
-    font-family: Mulish, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: GTW, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     line-height: 1.7;
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -192,7 +192,7 @@ body {
 }
 
 .header-container {
-    max-width: 74rem;
+    max-width: 100rem;
     margin: 0 auto;
     padding: 3rem;
     display: flex;
@@ -336,7 +336,7 @@ body {
 
 /* Container */
 .container {
-    max-width: 74rem;
+    max-width: 75rem;
     margin: 0 auto;
     padding: 3rem 3rem 1.5rem 3rem;
 }
@@ -471,7 +471,7 @@ body {
 
 
 .post-item h3 {
-    font-size: 2.4rem;
+    font-size: 3rem;
     margin-bottom: 1.5rem;
     line-height: 1.2;
 }
@@ -577,6 +577,44 @@ body {
     opacity: 0.7;
 }
 
+/* Archive Filter */
+.archive-filter {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.archive-filter label {
+    font-size: 1.8rem;
+    color: var(--text-color);
+    font-weight: 400;
+}
+
+.year-filter-select {
+    font-family: inherit;
+    font-size: 1.8rem;
+    padding: 0.5rem .5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+    min-width: 15rem;
+}
+
+.year-filter-select:hover {
+    border-color: var(--accent-color);
+}
+
+.year-filter-select:focus {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+    border-color: var(--accent-color);
+}
+
 /* Archive Section */
 .archive-section {
     margin-top: 4rem;
@@ -631,7 +669,7 @@ body {
 
 /* Single Post */
 .post {
-    max-width: 74rem;
+    max-width: 75rem;
     margin: 0 auto;
 }
 
@@ -886,6 +924,8 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
     font-size: 1.8rem;
+    border-top: 1px solid var(--table-border);
+    border-bottom: 1px solid var(--table-border);
 }
 
 .post-content thead,
@@ -1091,13 +1131,16 @@ details[open] summary {
 
 .footnotes ol {
     list-style: decimal;
-    margin-bottom: 2rem;
+    margin: 4rem 0 2rem 0;
     padding-left: 2.5rem;
 }
 .footnotes p {
     margin-bottom: 1rem;
     line-height: 1.4;
     font-size: 1.6rem;
+}
+.footnotes hr {
+    display: none;
 }
 
 /* Last Modified */
