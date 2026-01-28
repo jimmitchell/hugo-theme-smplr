@@ -114,7 +114,7 @@ textarea:not([rows]) {
 }
 
 /* Mulish Font Face */
-/*
+
 @font-face {
     font-family: "Mulish";
     src: url("/fonts/Mulish-Regular.woff2") format("woff2");
@@ -146,7 +146,7 @@ textarea:not([rows]) {
     font-style: italic;
     font-display: swap;
 }
-*/
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -155,7 +155,7 @@ textarea:not([rows]) {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Mulish, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     line-height: 1.7;
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -192,7 +192,7 @@ body {
 }
 
 .header-container {
-    max-width: 80rem;
+    max-width: 74rem;
     margin: 0 auto;
     padding: 3rem;
     display: flex;
@@ -336,7 +336,7 @@ body {
 
 /* Container */
 .container {
-    max-width: 80rem;
+    max-width: 74rem;
     margin: 0 auto;
     padding: 3rem 3rem 1.5rem 3rem;
 }
@@ -458,12 +458,17 @@ body {
 }
 
 .post-item {
-    padding-bottom: 2rem;
+    padding-bottom: 4rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 4rem !important
 }
 
 .post-item:last-child {
     border-bottom: none;
+    padding-bottom: 2rem;
+    margin-bottom: 0 !important;
 }
+
 
 .post-item h3 {
     font-size: 2.4rem;
@@ -626,7 +631,7 @@ body {
 
 /* Single Post */
 .post {
-    max-width: 80rem;
+    max-width: 74rem;
     margin: 0 auto;
 }
 
