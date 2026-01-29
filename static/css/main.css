@@ -125,7 +125,7 @@ textarea:not([rows]) {
 
 @font-face {
     font-family: "GTW";
-    src: url("/fonts/GT-W-Oblique.woff2") format("woff2");
+    src: url("/fonts/GT-W-Regular-Oblique.woff2") format("woff2");
     font-weight: 400;
     font-style: italic;
     font-display: swap;
