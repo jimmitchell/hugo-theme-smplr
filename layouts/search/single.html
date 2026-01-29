@@ -1,0 +1,101 @@
+{{ define "main" }}
+<div class="container">
+    <div class="posts-section">
+        <div id="search-container">
+            <input type="search" id="search-input" placeholder="Search posts and pages..." autofocus>
+            <div id="search-results"></div>
+        </div>
+        <script src="https://unpkg.com/lunr/lunr.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var searchIndexURL = {{ "/index.json" | relURL | jsonify }};
+                function escapeHtml(text) {
+                    if (!text) return '';
+                    var div = document.createElement('div');
+                    div.textContent = text;
+                    return div.innerHTML;
+                }
+                function getQueryParam(name) {
+                    var params = new URLSearchParams(window.location.search);
+                    return params.get(name) || '';
+                }
+                var indexBuilt = false;
+                var idx = null;
+                var searchData = null;
+                var searchInput = document.getElementById('search-input');
+                var searchResults = document.getElementById('search-results');
+                var initialQ = getQueryParam('q');
+                if (initialQ) {
+                    searchInput.value = initialQ;
+                }
+                function runSearch() {
+                    if (!indexBuilt || !idx || !searchData) return;
+                    var query = searchInput.value.trim();
+                    if (query.length < 2) {
+                        searchResults.innerHTML = '';
+                        return;
+                    }
+                    var results;
+                    try {
+                        results = idx.search(query);
+                        if (results.length === 0) {
+                            results = idx.search(query + '*');
+                        }
+                    } catch (e) {
+                        results = [];
+                    }
+                    if (results.length === 0) {
+                        searchResults.innerHTML = '<div class="search-results"><p class="search-no-results">Your search for "<strong>' + escapeHtml(query) + '</strong>" did not return any results.</p></div>';
+                        return;
+                    }
+                    var html = '<div class="posts-list">';
+                    results.forEach(function(result) {
+                        var ref = typeof result.ref === 'string' ? parseInt(result.ref, 10) : result.ref;
+                        var doc = searchData.documents[ref];
+                        if (!doc) return;
+                        var dateHtml = doc.dateFormatted ? '<div class="post-meta"><time datetime="' + escapeHtml(doc.date) + '">' + escapeHtml(doc.dateFormatted) + '</time></div>' : '';
+                        html += '<article class="post-item">';
+                        html += '<h3><a href="' + escapeHtml(doc.url) + '">' + escapeHtml(doc.title) + '</a></h3>';
+                        html += dateHtml;
+                        html += '<p class="post-summary">' + escapeHtml(doc.summary) + '</p>';
+                        html += '</article>';
+                    });
+                    html += '</div>';
+                    searchResults.innerHTML = html;
+                }
+                fetch(searchIndexURL)
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('Index not found');
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        if (!data.documents || !Array.isArray(data.documents)) {
+                            throw new Error('Invalid index format');
+                        }
+                        searchData = data;
+                        idx = lunr(function() {
+                            this.ref('id');
+                            this.field('title', { boost: 10 });
+                            this.field('content');
+                            data.documents.forEach(function(doc) {
+                                this.add({
+                                    id: doc.id,
+                                    title: doc.title || '',
+                                    content: doc.content || ''
+                                });
+                            }, this);
+                        });
+                        indexBuilt = true;
+                        if (initialQ && initialQ.length >= 2) {
+                            runSearch();
+                        }
+                    })
+                    .catch(function(err) {
+                        searchResults.innerHTML = '<p class="search-no-results">Could not load search index. Try refreshing the page.</p>';
+                    });
+                searchInput.addEventListener('input', runSearch);
+            });
+        </script>
+    </div>
+</div>
+{{ end }}

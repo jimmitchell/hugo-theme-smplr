@@ -1,5 +1,10 @@
 <footer class="site-footer">
     <div class="container">
         <p>&copy; {{ now.Year }} {{ .Site.Title }}. All rights reserved.</p>
+        <form class="footer-search" action="{{ "/search/" | absLangURL }}" method="get" role="search">
+            <label for="footer-search-input" class="visually-hidden">Search</label>
+            <input type="search" id="footer-search-input" name="q" placeholder="Search posts and pages..." aria-label="Search posts and pages">
+            <button type="submit">Search</button>
+        </form>
     </div>
 </footer>
