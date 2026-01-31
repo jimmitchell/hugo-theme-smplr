@@ -155,7 +155,7 @@ textarea:not([rows]) {
 }
 
 body {
-    font-family: GTW, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     line-height: 1.7;
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -192,7 +192,7 @@ body {
 }
 
 .header-container {
-    max-width: 90rem;
+    max-width: 72rem;
     margin: 0 auto;
     padding: 3rem;
     display: flex;
@@ -336,7 +336,7 @@ body {
 
 /* Container */
 .container {
-    max-width: 70rem;
+    max-width: 72rem;
     margin: 0 auto;
     padding: 3rem 3rem 1.5rem 3rem;
 }
@@ -446,7 +446,6 @@ body {
 
 .posts-section h2,
 .archive-section h2 {
-    font-size: 1.6rem;
     margin-bottom: 2rem;
     color: var(--text-color);
 }
@@ -669,7 +668,7 @@ body {
 
 /* Single Post */
 .post {
-    max-width: 70rem;
+    max-width: 72rem;
     margin: 0 auto;
 }
 
@@ -1176,6 +1175,8 @@ details[open] summary {
     border: 1px solid var(--border-color);
     border-radius: 4px;
     min-width: 16rem;
+    height: 2.8rem;
+    box-sizing: border-box;
 }
 
 .site-footer .footer-search input[type="search"]:focus {
@@ -1208,6 +1209,23 @@ details[open] summary {
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+}
+
+.container h1.search-results-heading {
+    margin-bottom: 3rem;
+}
+
+.site-footer .footer-search button.footer-search-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 0.9rem;
+    height: 2.8rem;
+    box-sizing: border-box;
+}
+
+.site-footer .footer-search button.footer-search-submit svg {
+    display: block;
 }
 
 /* Mobile Responsive */

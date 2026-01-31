@@ -1,0 +1,125 @@
+{{ define "main" }}
+<div class="container">
+    <div class="posts-section">
+        <div id="search-container">
+            <input type="search" id="search-input" placeholder="Search posts and pages..." autofocus>
+            <div id="search-results"></div>
+        </div>
+        <script src="https://unpkg.com/lunr/lunr.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var searchIndexURL = "{{ "/index.json" | relURL }}";
+                function escapeHtml(text) {
+                    if (!text) return '';
+                    var div = document.createElement('div');
+                    div.textContent = text;
+                    return div.innerHTML;
+                }
+                function getQueryParam(name) {
+                    var params = new URLSearchParams(window.location.search);
+                    return params.get(name) || '';
+                }
+                var indexBuilt = false;
+                var idx = null;
+                var searchData = null;
+                var searchInput = document.getElementById('search-input');
+                var searchResults = document.getElementById('search-results');
+                var initialQ = getQueryParam('q');
+                if (initialQ) {
+                    searchInput.value = initialQ;
+                }
+                function renderResults(docsToShow) {
+                    if (!docsToShow || docsToShow.length === 0) return false;
+                    var html = '<div class="posts-list">';
+                    docsToShow.forEach(function(doc) {
+                        var dateHtml = doc.dateFormatted ? '<div class="post-meta"><time datetime="' + escapeHtml(doc.date) + '">' + escapeHtml(doc.dateFormatted) + '</time></div>' : '';
+                        html += '<article class="post-item">';
+                        html += '<h3><a href="' + escapeHtml(doc.url) + '">' + escapeHtml(doc.title) + '</a></h3>';
+                        html += dateHtml;
+                        html += '<p class="post-summary">' + escapeHtml(doc.summary) + '</p>';
+                        html += '</article>';
+                    });
+                    html += '</div>';
+                    searchResults.innerHTML = html;
+                    return true;
+                }
+                function runSearch() {
+                    if (!searchData || !searchData.documents) return;
+                    var query = searchInput.value.trim();
+                    if (query.length < 2) {
+                        searchResults.innerHTML = '';
+                        return;
+                    }
+                    var q = query.toLowerCase();
+                    var docsToShow = [];
+                    if (idx) {
+                        try {
+                            var results = idx.search(query);
+                            if (results.length === 0) results = idx.search(query + '*');
+                            for (var i = 0; i < results.length; i++) {
+                                var ref = results[i].ref;
+                                if (typeof ref === 'string') ref = parseInt(ref, 10);
+                                var doc = searchData.documents[ref];
+                                if (doc) docsToShow.push(doc);
+                            }
+                        } catch (e) { }
+                    }
+                    if (docsToShow.length === 0) {
+                        searchData.documents.forEach(function(doc) {
+                            var title = (doc.title || '').toLowerCase();
+                            var content = (doc.content || '').toLowerCase();
+                            if (title.indexOf(q) !== -1 || content.indexOf(q) !== -1) {
+                                docsToShow.push(doc);
+                            }
+                        });
+                    }
+                    if (docsToShow.length === 0) {
+                        searchResults.innerHTML = '<div class="search-results"><p class="search-no-results">Your search for "<strong>' + escapeHtml(query) + '</strong>" did not return any results.</p></div>';
+                        return;
+                    }
+                    renderResults(docsToShow);
+                }
+                fetch(searchIndexURL)
+                    .then(function(response) {
+                        if (!response.ok) throw new Error('Index not found');
+                        return response.json();
+                    })
+                    .then(function(data) {
+                        try {
+                            if (!data.documents || !Array.isArray(data.documents)) {
+                                throw new Error('Invalid index format');
+                            }
+                            searchData = data;
+                            try {
+                                idx = lunr(function() {
+                                    this.ref('id');
+                                    this.field('title', { boost: 10 });
+                                    this.field('content');
+                                    data.documents.forEach(function(doc) {
+                                        this.add({
+                                            id: doc.id,
+                                            title: String(doc.title || ''),
+                                            content: String(doc.content || '')
+                                        });
+                                    }, this);
+                                });
+                            } catch (e) {
+                                idx = null;
+                            }
+                            indexBuilt = true;
+                            if (initialQ && initialQ.length >= 2) {
+                                runSearch();
+                            }
+                        } catch (e) {
+                            searchResults.innerHTML = '<p class="search-no-results">Could not load search index. Try refreshing the page.</p>';
+                        }
+                    })
+                    .catch(function(err) {
+                        searchResults.innerHTML = '<p class="search-no-results">Could not load search index. Try refreshing the page.</p>';
+                    });
+                searchInput.addEventListener('input', runSearch);
+            });
+        </script>
+    </div>
+</div>
+{{ end }}

@@ -1,0 +1,68 @@
+{{ define "main" }}
+<div class="container">
+    <h1>{{ .Title }}</h1>
+    {{ .Content }}
+    
+    {{ $posts := where .Site.RegularPages "Section" "posts" }}
+    {{ if not $posts }}{{ $posts = .Site.RegularPages }}{{ end }}
+    {{ $years := slice }}
+    {{ if $posts }}
+    {{ $grouped := $posts.GroupByDate "2006" }}
+    {{ range $grouped }}
+        {{ $years = $years | append .Key }}
+    {{ end }}
+    {{ if gt (len $years) 1 }}
+    <div class="archive-filter">
+        <label for="year-filter">Filter by year:</label>
+        <select id="year-filter" class="year-filter-select">
+            <option value="all">All years</option>
+            {{ range $years }}
+            <option value="year-{{ . }}">{{ . }}</option>
+            {{ end }}
+        </select>
+    </div>
+    {{ end }}
+    
+    <div class="archive-section">
+        {{ range $grouped }}
+        <div class="archive-year" data-year="year-{{ .Key }}">
+            <h2>{{ .Key }}</h2>
+            <ul class="archive-list">
+                {{ range .Pages }}
+                <li>
+                    <a href="{{ .Permalink }}">{{ .Title }}</a>
+                    <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2" }}</time>
+                </li>
+                {{ end }}
+            </ul>
+        </div>
+        {{ end }}
+    </div>
+    {{ else }}
+    <div class="archive-section">
+        <p>No posts to display in archive.</p>
+    </div>
+    {{ end }}
+</div>
+{{ if gt (len $years) 1 }}
+<script>
+(function() {
+    const yearFilter = document.getElementById('year-filter');
+    if (!yearFilter) return;
+    
+    yearFilter.addEventListener('change', function() {
+        const selectedYear = this.value;
+        const archiveYears = document.querySelectorAll('.archive-year');
+        
+        archiveYears.forEach(function(year) {
+            if (selectedYear === 'all' || year.getAttribute('data-year') === selectedYear) {
+                year.style.display = '';
+            } else {
+                year.style.display = 'none';
+            }
+        });
+    });
+})();
+</script>
+{{ end }}
+{{ end }}

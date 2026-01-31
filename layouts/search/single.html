@@ -2,13 +2,15 @@
 <div class="container">
     <div class="posts-section">
         <div id="search-container">
-            <input type="search" id="search-input" placeholder="Search posts and pages..." autofocus>
+            <input type="search" id="search-input" placeholder="Search the site..." autofocus>
             <div id="search-results"></div>
         </div>
-        <script src="https://unpkg.com/lunr/lunr.js"></script>
         <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                var searchIndexURL = {{ "/index.json" | relURL | jsonify }};
+            (function() {
+                var searchInput = document.getElementById('search-input');
+                var searchResults = document.getElementById('search-results');
+                if (!searchInput || !searchResults) return;
+
                 function escapeHtml(text) {
                     if (!text) return '';
                     var div = document.createElement('div');
@@ -19,82 +21,67 @@
                     var params = new URLSearchParams(window.location.search);
                     return params.get(name) || '';
                 }
-                var indexBuilt = false;
-                var idx = null;
-                var searchData = null;
-                var searchInput = document.getElementById('search-input');
-                var searchResults = document.getElementById('search-results');
-                var initialQ = getQueryParam('q');
-                if (initialQ) {
-                    searchInput.value = initialQ;
-                }
-                function runSearch() {
-                    if (!indexBuilt || !idx || !searchData) return;
-                    var query = searchInput.value.trim();
-                    if (query.length < 2) {
-                        searchResults.innerHTML = '';
-                        return;
-                    }
-                    var results;
-                    try {
-                        results = idx.search(query);
-                        if (results.length === 0) {
-                            results = idx.search(query + '*');
-                        }
-                    } catch (e) {
-                        results = [];
-                    }
-                    if (results.length === 0) {
-                        searchResults.innerHTML = '<div class="search-results"><p class="search-no-results">Your search for "<strong>' + escapeHtml(query) + '</strong>" did not return any results.</p></div>';
+                function render(docs) {
+                    if (!docs.length) {
+                        searchResults.innerHTML = '<p class="search-no-results">No results found.</p>';
                         return;
                     }
                     var html = '<div class="posts-list">';
-                    results.forEach(function(result) {
-                        var ref = typeof result.ref === 'string' ? parseInt(result.ref, 10) : result.ref;
-                        var doc = searchData.documents[ref];
-                        if (!doc) return;
+                    docs.forEach(function(doc) {
                         var dateHtml = doc.dateFormatted ? '<div class="post-meta"><time datetime="' + escapeHtml(doc.date) + '">' + escapeHtml(doc.dateFormatted) + '</time></div>' : '';
                         html += '<article class="post-item">';
                         html += '<h3><a href="' + escapeHtml(doc.url) + '">' + escapeHtml(doc.title) + '</a></h3>';
                         html += dateHtml;
-                        html += '<p class="post-summary">' + escapeHtml(doc.summary) + '</p>';
+                        html += '<p class="post-summary">' + escapeHtml(doc.summary || '') + '</p>';
                         html += '</article>';
                     });
                     html += '</div>';
                     searchResults.innerHTML = html;
                 }
-                fetch(searchIndexURL)
-                    .then(function(response) {
-                        if (!response.ok) throw new Error('Index not found');
-                        return response.json();
+                function runSearch(data, query) {
+                    query = (query || searchInput.value.trim() || '').toLowerCase();
+                    if (query.length < 2) {
+                        searchResults.innerHTML = '';
+                        return;
+                    }
+                    var docs = [];
+                    for (var i = 0; i < data.documents.length; i++) {
+                        var doc = data.documents[i];
+                        var title = (doc.title || '').toLowerCase();
+                        var content = (doc.content || '').toLowerCase();
+                        if (title.indexOf(query) !== -1 || content.indexOf(query) !== -1) {
+                            docs.push(doc);
+                        }
+                    }
+                    render(docs);
+                }
+
+                var indexURL = window.location.origin + '/index.json';
+
+                searchResults.innerHTML = '<p class="search-no-results">Loading…</p>';
+                fetch(indexURL)
+                    .then(function(res) {
+                        if (!res.ok) throw new Error(res.status);
+                        return res.json();
                     })
                     .then(function(data) {
-                        if (!data.documents || !Array.isArray(data.documents)) {
-                            throw new Error('Invalid index format');
+                        if (!data.documents || !data.documents.length) {
+                            searchResults.innerHTML = '<p class="search-no-results">Search index is empty.</p>';
+                            return;
                         }
-                        searchData = data;
-                        idx = lunr(function() {
-                            this.ref('id');
-                            this.field('title', { boost: 10 });
-                            this.field('content');
-                            data.documents.forEach(function(doc) {
-                                this.add({
-                                    id: doc.id,
-                                    title: doc.title || '',
-                                    content: doc.content || ''
-                                });
-                            }, this);
-                        });
-                        indexBuilt = true;
-                        if (initialQ && initialQ.length >= 2) {
-                            runSearch();
+                        searchInput.addEventListener('input', function() { runSearch(data); });
+                        var q = getQueryParam('q');
+                        if (q) {
+                            searchInput.value = q;
+                            runSearch(data, q);
+                        } else {
+                            searchResults.innerHTML = '';
                         }
                     })
-                    .catch(function(err) {
-                        searchResults.innerHTML = '<p class="search-no-results">Could not load search index. Try refreshing the page.</p>';
+                    .catch(function() {
+                        searchResults.innerHTML = '<p class="search-no-results">Could not load search index. Check that <code>/index.json</code> exists.</p>';
                     });
-                searchInput.addEventListener('input', runSearch);
-            });
+            })();
         </script>
     </div>
 </div>

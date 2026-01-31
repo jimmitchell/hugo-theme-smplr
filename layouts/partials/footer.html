@@ -3,8 +3,10 @@
         <p>&copy; {{ now.Year }} {{ .Site.Title }}. All rights reserved.</p>
         <form class="footer-search" action="{{ "/search/" | absLangURL }}" method="get" role="search">
             <label for="footer-search-input" class="visually-hidden">Search</label>
-            <input type="search" id="footer-search-input" name="q" placeholder="Search posts and pages..." aria-label="Search posts and pages">
-            <button type="submit">Search</button>
+            <input type="search" id="footer-search-input" name="q" placeholder="Search the site..." aria-label="Search posts and pages">
+            <button type="submit" class="footer-search-submit" aria-label="Search">
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            </button>
         </form>
     </div>
 </footer>
