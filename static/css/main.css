@@ -91,10 +91,11 @@ textarea:not([rows]) {
     --mark-bg: #fff3cd;
     --mark-color: #856404;
     --selection-bg: #b3d4fc;
+    --width: 76rem;
 }
 
 .dark {
-    --bg-color: #1a1a1a;
+    --bg-color: #0d0b0b;
     --text-color: #e0e0e0;
     --accent-color: #4a9eff;
     --border-color: #333333;
@@ -116,32 +117,32 @@ textarea:not([rows]) {
 /* Mulish Font Face */
 
 @font-face {
-    font-family: "GTW";
-    src: url("/fonts/GT-W-Regular.woff2") format("woff2");
+    font-family: "Inter";
+    src: url("/fonts/Inter-Regular.woff2") format("woff2");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "GTW";
-    src: url("/fonts/GT-W-Regular-Oblique.woff2") format("woff2");
+    font-family: "Inter";
+    src: url("/fonts/Inter-Italic.woff2") format("woff2");
     font-weight: 400;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "GTW";
-    src: url("/fonts/GT-W-Bold.woff2") format("woff2");
+    font-family: "Inter";
+    src: url("/fonts/Inter-Bold.woff2") format("woff2");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "GTW";
-    src: url("/fonts/GT-W-Bold-Oblique.woff2") format("woff2");
+    font-family: "Inter";
+    src: url("/fonts/Inter-BoldItalic.woff2") format("woff2");
     font-weight: 700;
     font-style: italic;
     font-display: swap;
@@ -155,7 +156,7 @@ textarea:not([rows]) {
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     line-height: 1.7;
     color: var(--text-color);
     background-color: var(--bg-color);
@@ -192,7 +193,7 @@ body {
 }
 
 .header-container {
-    max-width: 72rem;
+    max-width: var(--width);
     margin: 0 auto;
     padding: 3rem;
     display: flex;
@@ -220,7 +221,7 @@ body {
     border: none;
     cursor: pointer;
     padding: 0.5rem;
-    gap: 5px;
+    gap: 4px;
     width: 30px;
     height: 30px;
     justify-content: center;
@@ -240,7 +241,7 @@ body {
 }
 
 .menu-toggle.active span:nth-child(1) {
-    transform: translateY(7px) rotate(45deg);
+    transform: translateY(6px) rotate(45deg);
 }
 
 .menu-toggle.active span:nth-child(2) {
@@ -249,7 +250,7 @@ body {
 }
 
 .menu-toggle.active span:nth-child(3) {
-    transform: translateY(-7px) rotate(-45deg);
+    transform: translateY(-6px) rotate(-45deg);
 }
 
 
@@ -336,7 +337,7 @@ body {
 
 /* Container */
 .container {
-    max-width: 72rem;
+    max-width: var(--width);
     margin: 0 auto;
     padding: 3rem 3rem 1.5rem 3rem;
 }
@@ -668,7 +669,7 @@ body {
 
 /* Single Post */
 .post {
-    max-width: 72rem;
+    max-width: var(--width);
     margin: 0 auto;
 }
 
@@ -683,7 +684,7 @@ body {
 }
 
 .post-content {
-    line-height: 1.8;
+    line-height: 1.7;
     font-size: 1.8rem;
 }
 
@@ -754,7 +755,7 @@ h6 {
 .post-content p,
 p {
     margin-bottom: 2rem;
-    line-height: 1.8;
+    line-height: 1.7;
 }
 
 /* Links */

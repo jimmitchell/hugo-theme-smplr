@@ -15,6 +15,17 @@
                     div.textContent = text;
                     return div.innerHTML;
                 }
+                function decodeHtmlEntities(text) {
+                    if (!text) return '';
+                    var entities = { '&rsquo;': "'", '&lsquo;': "'", '&rdquo;': '"', '&ldquo;': '"', '&hellip;': '\u2026', '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&nbsp;': '\u00A0' };
+                    return String(text).replace(/&[^;]+;/g, function(m) { return entities[m] || m; });
+                }
+                function truncateSummary(text, maxLen) {
+                    var decoded = decodeHtmlEntities(text || '');
+                    if (decoded.length <= maxLen) return decoded;
+                    var truncated = decoded.slice(0, maxLen).replace(/\s+$/, '');
+                    return truncated + '\u2026';
+                }
                 function getQueryParam(name) {
                     var params = new URLSearchParams(window.location.search);
                     return params.get(name) || '';
@@ -32,11 +43,11 @@
                     if (!docsToShow || docsToShow.length === 0) return false;
                     var html = '<div class="posts-list">';
                     docsToShow.forEach(function(doc) {
-                        var dateHtml = doc.dateFormatted ? '<div class="post-meta"><time datetime="' + escapeHtml(doc.date) + '">' + escapeHtml(doc.dateFormatted) + '</time></div>' : '';
+                        var dateHtml = doc.dateFormatted ? '<div class="post-meta"><time datetime="' + escapeHtml(doc.date) + '">' + escapeHtml(decodeHtmlEntities(doc.dateFormatted)) + '</time></div>' : '';
                         html += '<article class="post-item">';
-                        html += '<h3><a href="' + escapeHtml(doc.url) + '">' + escapeHtml(doc.title) + '</a></h3>';
+                        html += '<h3><a href="' + escapeHtml(doc.url) + '">' + escapeHtml(decodeHtmlEntities(doc.title)) + '</a></h3>';
                         html += dateHtml;
-                        html += '<p class="post-summary">' + escapeHtml(doc.summary) + '</p>';
+                        html += '<p class="post-summary">' + escapeHtml(truncateSummary(doc.summary || doc.content || '', 350)) + '</p>';
                         html += '</article>';
                     });
                     html += '</div>';

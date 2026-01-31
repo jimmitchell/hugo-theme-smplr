@@ -5,7 +5,7 @@
         <div class="posts-list">
             {{ $posts := where .Site.RegularPages "Section" "posts" }}
             {{ if not $posts }}{{ $posts = .Site.RegularPages }}{{ end }}
-            {{ $paginator := .Paginate $posts 15 }}
+            {{ $paginator := .Paginate $posts 10 }}
             {{ if $paginator.Pages }}
             {{ range $paginator.Pages }}
             <article class="post-item">
@@ -19,9 +19,9 @@
                         {{ .Date.Format "Monday, January" }} {{ $dayInt }}{{ $suffix }}, {{ .Date.Format "2006" }}
                     </time>
                 </div>
-                {{ if .Summary }}
-                <p class="post-summary">{{ .Content }}</p>
-                {{ end }}
+                <div class="post-content">
+                    {{ .Content }}
+                </div>
             </article>
             {{ end }}
             {{ else }}

@@ -1,21 +1,31 @@
 {{ define "main" }}
 <div class="container">
+    <h1 class="search-results-heading">Search Results</h1>
     <div class="posts-section">
         <div id="search-container">
-            <input type="search" id="search-input" placeholder="Search the site..." autofocus>
-            <div id="search-results"></div>
+            <div id="search-results"><p class="search-no-results">Use the footer to search, then results will appear here.</p></div>
         </div>
         <script>
             (function() {
-                var searchInput = document.getElementById('search-input');
                 var searchResults = document.getElementById('search-results');
-                if (!searchInput || !searchResults) return;
+                if (!searchResults) return;
 
                 function escapeHtml(text) {
                     if (!text) return '';
                     var div = document.createElement('div');
                     div.textContent = text;
                     return div.innerHTML;
+                }
+                function decodeHtmlEntities(text) {
+                    if (!text) return '';
+                    var entities = { '&rsquo;': "'", '&lsquo;': "'", '&rdquo;': '"', '&ldquo;': '"', '&hellip;': '\u2026', '&amp;': '&', '&lt;': '<', '&gt;': '>', '&quot;': '"', '&nbsp;': '\u00A0' };
+                    return String(text).replace(/&[^;]+;/g, function(m) { return entities[m] || m; });
+                }
+                function truncateSummary(text, maxLen) {
+                    var decoded = decodeHtmlEntities(text || '');
+                    if (decoded.length <= maxLen) return decoded;
+                    var truncated = decoded.slice(0, maxLen).replace(/\s+$/, '');
+                    return truncated + '\u2026';
                 }
                 function getQueryParam(name) {
                     var params = new URLSearchParams(window.location.search);
@@ -28,20 +38,20 @@
                     }
                     var html = '<div class="posts-list">';
                     docs.forEach(function(doc) {
-                        var dateHtml = doc.dateFormatted ? '<div class="post-meta"><time datetime="' + escapeHtml(doc.date) + '">' + escapeHtml(doc.dateFormatted) + '</time></div>' : '';
+                        var dateHtml = doc.dateFormatted ? '<div class="post-meta"><time datetime="' + escapeHtml(doc.date) + '">' + escapeHtml(decodeHtmlEntities(doc.dateFormatted)) + '</time></div>' : '';
                         html += '<article class="post-item">';
-                        html += '<h3><a href="' + escapeHtml(doc.url) + '">' + escapeHtml(doc.title) + '</a></h3>';
+                        html += '<h3><a href="' + escapeHtml(doc.url) + '">' + escapeHtml(decodeHtmlEntities(doc.title)) + '</a></h3>';
                         html += dateHtml;
-                        html += '<p class="post-summary">' + escapeHtml(doc.summary || '') + '</p>';
+                        html += '<p class="post-summary">' + escapeHtml(truncateSummary(doc.summary || doc.content || '', 350)) + '</p>';
                         html += '</article>';
                     });
                     html += '</div>';
                     searchResults.innerHTML = html;
                 }
                 function runSearch(data, query) {
-                    query = (query || searchInput.value.trim() || '').toLowerCase();
+                    query = (query || '').toLowerCase();
                     if (query.length < 2) {
-                        searchResults.innerHTML = '';
+                        searchResults.innerHTML = '<p class="search-no-results">Type at least 2 characters to search.</p>';
                         return;
                     }
                     var docs = [];
@@ -58,7 +68,7 @@
 
                 var indexURL = window.location.origin + '/index.json';
 
-                searchResults.innerHTML = '<p class="search-no-results">Loading…</p>';
+                searchResults.innerHTML = '<p class="search-no-results">Loading search index…</p>';
                 fetch(indexURL)
                     .then(function(res) {
                         if (!res.ok) throw new Error(res.status);
@@ -69,13 +79,11 @@
                             searchResults.innerHTML = '<p class="search-no-results">Search index is empty.</p>';
                             return;
                         }
-                        searchInput.addEventListener('input', function() { runSearch(data); });
                         var q = getQueryParam('q');
-                        if (q) {
-                            searchInput.value = q;
+                        if (q && q.length >= 2) {
                             runSearch(data, q);
                         } else {
-                            searchResults.innerHTML = '';
+                            searchResults.innerHTML = '<p class="search-no-results">Use the footer to search, then results will appear here.</p>';
                         }
                     })
                     .catch(function() {
