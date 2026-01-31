@@ -95,7 +95,7 @@ textarea:not([rows]) {
 }
 
 .dark {
-    --bg-color: #0d0b0b;
+    --bg-color: #1a1a1a;
     --text-color: #e0e0e0;
     --accent-color: #4a9eff;
     --border-color: #333333;
