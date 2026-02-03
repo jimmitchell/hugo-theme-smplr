@@ -8,7 +8,7 @@
         <script src="https://unpkg.com/lunr/lunr.js"></script>
         <script>
             document.addEventListener('DOMContentLoaded', function() {
-                var searchIndexURL = "{{ "/index.json" | relURL }}";
+                var searchIndexURL = '{{ "/index.json" | relURL }}';
                 function escapeHtml(text) {
                     if (!text) return '';
                     var div = document.createElement('div');
