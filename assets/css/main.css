@@ -193,7 +193,7 @@ body {
 }
 
 .header-container {
-    max-width: var(--width);
+    max-width: 94rem;
     margin: 0 auto;
     padding: 3rem;
     display: flex;
