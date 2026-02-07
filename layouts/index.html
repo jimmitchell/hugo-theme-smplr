@@ -5,7 +5,7 @@
         <div class="posts-list">
             {{ $posts := where .Site.RegularPages "Section" "posts" }}
             {{ if not $posts }}{{ $posts = .Site.RegularPages }}{{ end }}
-            {{ $paginator := .Paginate $posts 10 }}
+            {{ $paginator := .Paginate $posts 5 }}
             {{ if $paginator.Pages }}
             {{ range $paginator.Pages }}
             <article class="post-item">
