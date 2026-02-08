@@ -6,7 +6,12 @@
 <body>
     {{- partial "header.html" . -}}
     <main id="main">
-        {{- block "main" . }}{{- end }}
+        <div class="index-layout">
+            <div class="index-main">
+                {{- block "main" . }}{{- end }}
+            </div>
+            {{- partial "sidebar.html" . -}}
+        </div>
     </main>
     {{- partial "footer.html" . -}}
     {{- partial "scripts.html" . -}}

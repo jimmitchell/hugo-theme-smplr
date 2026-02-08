@@ -1,0 +1,35 @@
+<aside class="index-sidebar">
+    {{ $posts := where .Site.RegularPages "Section" "posts" }}
+    {{ if not $posts }}{{ $posts = .Site.RegularPages }}{{ end }}
+    {{ $recent := first 10 $posts }}
+    {{ if $recent }}
+    <section>
+        <h3>Recent Posts</h3>
+        <ul>
+            {{ range $recent }}
+            <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+            {{ end }}
+        </ul>
+    </section>
+    {{ end }}
+    {{ if .Site.Taxonomies.categories }}
+    <section class="sidebar-categories">
+        <h3>Categories</h3>
+        <ul>
+            {{ range .Site.Taxonomies.categories.ByCount }}
+            <li><a href="{{ .Page.Permalink }}">{{ .Page.Title }}</a></li>
+            {{ end }}
+        </ul>
+    </section>
+    {{ end }}
+    {{ if .Site.Taxonomies.tags }}
+    <section class="sidebar-tags">
+        <h3>Tags</h3>
+        <ul>
+            {{ range .Site.Taxonomies.tags.ByCount }}
+            <li><a href="{{ .Page.Permalink }}">{{ .Page.Title }}</a></li>
+            {{ end }}
+        </ul>
+    </section>
+    {{ end }}
+</aside>
