@@ -16,6 +16,20 @@
         <div class="post-content">
             {{ .Content }}
         </div>
+        {{ $categories := .GetTerms "categories" }}
+        {{ $tags := .GetTerms "tags" }}
+        {{ if or $categories $tags }}
+        <footer class="post-terms">
+            <ul class="post-terms-list">
+                {{ range $categories }}
+                <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+                {{ end }}
+                {{ range $tags }}
+                <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+                {{ end }}
+            </ul>
+        </footer>
+        {{ end }}
     </article>
     
     {{ if or .PrevInSection .NextInSection }}
