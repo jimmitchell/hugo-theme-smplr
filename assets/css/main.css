@@ -364,6 +364,57 @@ body {
     flex-shrink: 0;
 }
 
+.index-sidebar .sidebar-search {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 3rem;
+    margin-bottom: 4rem;
+}
+
+.index-sidebar .sidebar-search input[type="search"] {
+    flex: 1;
+    min-width: 0;
+    padding: 0.5rem 0.75rem;
+    font-size: 1.4rem;
+    color: var(--text-color);
+    background-color: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    height: 3.5rem;
+    box-sizing: border-box;
+}
+
+.index-sidebar .sidebar-search input[type="search"]:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.index-sidebar .sidebar-search button.sidebar-search-submit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1rem;
+    height: 3.5rem;
+    box-sizing: border-box;
+    font-size: 1.6rem;
+    color: var(--bg-color);
+    background-color: var(--accent-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.index-sidebar .sidebar-search button.sidebar-search-submit:hover {
+    background-color: var(--hover-color);
+}
+
+.index-sidebar .sidebar-search button.sidebar-search-submit svg {
+    display: block;
+}
+
 .index-sidebar section {
     margin-bottom: 3rem;
 }
@@ -1562,6 +1613,11 @@ details[open] summary {
     }
 
     .index-sidebar section {
+        margin-bottom: 0;
+    }
+
+    .index-sidebar .sidebar-search {
+        margin-top: 3rem;
         margin-bottom: 0;
     }
 }

@@ -1,4 +1,11 @@
 <aside class="index-sidebar">
+    <form class="sidebar-search" action="{{ "/search/" | absLangURL }}" method="get" role="search">
+        <label for="sidebar-search-input" class="visually-hidden">Search</label>
+        <input type="search" id="sidebar-search-input" name="q" placeholder="Search the site..." aria-label="Search posts and pages">
+        <button type="submit" class="sidebar-search-submit" aria-label="Search">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+    </form>
     {{ $posts := where .Site.RegularPages "Section" "posts" }}
     {{ if not $posts }}{{ $posts = .Site.RegularPages }}{{ end }}
     {{ $recent := first 10 $posts }}
