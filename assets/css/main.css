@@ -91,8 +91,8 @@ textarea:not([rows]) {
     --mark-bg: #fff3cd;
     --mark-color: #856404;
     --selection-bg: #b3d4fc;
-    --header-width: 96rem; /* 90rem */
-    --width: 66rem;
+    --site-width: 100rem; /* 90rem */
+    --width: 70rem;
 }
 
 .dark {
@@ -194,7 +194,7 @@ body {
 }
 
 .header-container {
-    max-width: var(--header-width);
+    max-width: var(--site-width);
     margin: 0 auto;
     padding: 3rem;
     display: flex;
@@ -338,18 +338,18 @@ body {
 
 /* Container */
 .container {
-    max-width: var(--width);
+    max-width: var(--site-width);
     margin: 0 auto;
     padding: 0 0 1.5rem 0;
 }
 
 /* Index (home) layout with sidebar */
 .index-layout {
-    max-width: 96rem;
+    max-width: var(--site-width);
     margin: 0 auto;
     padding: 0 3rem 1.5rem 3rem;
     display: flex;
-    gap: 5rem;
+    gap: 8rem;
     align-items: flex-start;
 }
 
