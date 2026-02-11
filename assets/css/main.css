@@ -259,6 +259,8 @@ body {
 .site-nav {
     display: flex;
     align-items: center;
+    font-size: 1.6rem;
+    opacity: .7;
 }
 
 .nav-menu {
@@ -1464,6 +1466,7 @@ details[open] summary {
         overflow-y: auto;
         opacity: 0;
         pointer-events: none;
+        font-size: 1.7rem;
     }
     
     .site-nav.active {
@@ -1548,6 +1551,7 @@ details[open] summary {
     .site-title {
         position: relative;
         z-index: 1006;
+        font-size: 1.9rem;
     }
     
     .container {
