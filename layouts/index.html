@@ -1,8 +1,7 @@
 {{ define "main" }}
 <div class="posts-section">
     <div class="posts-list">
-        {{ $posts := where .Site.RegularPages "Section" "posts" }}
-        {{ if not $posts }}{{ $posts = .Site.RegularPages }}{{ end }}
+        {{ $posts := partial "get-posts.html" . }}
         {{ $latest := first 1 $posts }}
         {{ if $latest }}
         {{ range $latest }}
@@ -10,17 +9,36 @@
             <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
             <div class="post-meta">
                 <time datetime="{{ .Date.Format "2006-01-02" }}">
-                    {{ $day := .Date.Format "2" }}
-                    {{ $dayInt := int $day }}
-                    {{ $suffix := "th" }}
-                    {{ if or (eq $dayInt 1) (eq $dayInt 21) (eq $dayInt 31) }}{{ $suffix = "st" }}{{ else if or (eq $dayInt 2) (eq $dayInt 22) }}{{ $suffix = "nd" }}{{ else if or (eq $dayInt 3) (eq $dayInt 23) }}{{ $suffix = "rd" }}{{ end }}
-                    {{ .Date.Format "Monday, January" }} {{ $dayInt }}{{ $suffix }}, {{ .Date.Format "2006" }}
+                    {{- partial "formatted-date.html" .Date -}}
                 </time>
             </div>
             <div class="post-content">
                 {{ .Content }}
             </div>
+            {{ $categories := .GetTerms "categories" }}
+            {{ $tags := .GetTerms "tags" }}
+            {{ if or $categories $tags }}
+            <footer class="post-terms">
+                <ul class="post-terms-list">
+                    {{ range $categories }}
+                    <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+                    {{ end }}
+                    {{ range $tags }}
+                    <li><a href="{{ .Permalink }}">{{ .LinkTitle }}</a></li>
+                    {{ end }}
+                </ul>
+            </footer>
+            {{ end }}
         </article>
+        {{ end }}
+        {{ $next := index $posts 1 }}
+        {{ if $next }}
+        <nav class="pagination pagination-post pagination-home">
+            <div class="pagination-item">
+                <h4>Older</h4>
+                <a href="{{ $next.Permalink }}">{{ $next.Title }}</a>
+            </div>
+        </nav>
         {{ end }}
         {{ else }}
         <p>No posts yet.</p>

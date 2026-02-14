@@ -1,0 +1,5 @@
+{{- $posts := where .Site.RegularPages "Section" "posts" -}}
+{{- if not $posts -}}
+    {{- $posts = .Site.RegularPages -}}
+{{- end -}}
+{{- return $posts -}}

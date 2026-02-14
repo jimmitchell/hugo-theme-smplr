@@ -1,0 +1,12 @@
+{{- $date := . -}}
+{{- $day := $date.Format "2" -}}
+{{- $dayInt := int $day -}}
+{{- $suffix := "th" -}}
+{{- if or (eq $dayInt 1) (eq $dayInt 21) (eq $dayInt 31) -}}
+    {{- $suffix = "st" -}}
+{{- else if or (eq $dayInt 2) (eq $dayInt 22) -}}
+    {{- $suffix = "nd" -}}
+{{- else if or (eq $dayInt 3) (eq $dayInt 23) -}}
+    {{- $suffix = "rd" -}}
+{{- end -}}
+{{- $date.Format "Monday, January" }} {{ $dayInt }}{{ $suffix }}, {{ $date.Format "2006" -}}

@@ -2,11 +2,11 @@
 {{- if $mainJS }}
 {{- $script := $mainJS | resources.Minify }}
 {{- if eq hugo.Environment "development" }}
-<script src="{{ $script.RelPermalink }}"></script>
+<script src="{{ $script.RelPermalink }}" defer></script>
 {{- else }}
 {{- $secureScript := $script | resources.Fingerprint "sha512" }}
-<script src="{{ $secureScript.RelPermalink }}" integrity="{{ $secureScript.Data.Integrity }}" crossorigin="anonymous"></script>
+<script src="{{ $secureScript.RelPermalink }}" integrity="{{ $secureScript.Data.Integrity }}" crossorigin="anonymous" defer></script>
 {{- end }}
 {{- else }}
-<script src="{{ "js/main.js" | relURL }}"></script>
+<script src="{{ "js/main.js" | relURL }}" defer></script>
 {{- end }}

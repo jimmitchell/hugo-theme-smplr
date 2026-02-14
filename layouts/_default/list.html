@@ -16,11 +16,7 @@
                 <h3><a href="{{ .Permalink }}">{{ .Title }}</a></h3>
                 <div class="post-meta">
                     <time datetime="{{ .Date.Format "2006-01-02" }}">
-                        {{ $day := .Date.Format "2" }}
-                        {{ $dayInt := int $day }}
-                        {{ $suffix := "th" }}
-                        {{ if or (eq $dayInt 1) (eq $dayInt 21) (eq $dayInt 31) }}{{ $suffix = "st" }}{{ else if or (eq $dayInt 2) (eq $dayInt 22) }}{{ $suffix = "nd" }}{{ else if or (eq $dayInt 3) (eq $dayInt 23) }}{{ $suffix = "rd" }}{{ end }}
-                        {{ .Date.Format "Monday, January" }} {{ $dayInt }}{{ $suffix }}, {{ .Date.Format "2006" }}
+                        {{- partial "formatted-date.html" .Date -}}
                     </time>
                 </div>
                 {{ if .Summary }}

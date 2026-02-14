@@ -37,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         
         // Handle sub-menu toggle and link clicks using event delegation
-        const isMobile = window.matchMedia('(max-width: 768px)').matches;
         const mobileMediaQuery = window.matchMedia('(max-width: 768px)');
         let isMobileView = mobileMediaQuery.matches;
         
@@ -71,23 +70,15 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
-    
-    // Auto-detect and apply system theme preference
-    function applyTheme(isDark) {
-        if (isDark) {
-            body.classList.add('dark');
-            body.classList.remove('light');
-        } else {
-            body.classList.remove('dark');
-        }
+
+    // Archive Year Filter
+    const yearFilter = document.getElementById('year-filter');
+    if (yearFilter) {
+        yearFilter.addEventListener('change', function() {
+            const selectedYear = this.value;
+            document.querySelectorAll('.archive-year').forEach(function(year) {
+                year.style.display = (selectedYear === 'all' || year.getAttribute('data-year') === selectedYear) ? '' : 'none';
+            });
+        });
     }
-    
-    // Check system preference
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-    applyTheme(prefersDark.matches);
-    
-    // Listen for changes to system preference
-    prefersDark.addEventListener('change', function(e) {
-        applyTheme(e.matches);
-    });
 });

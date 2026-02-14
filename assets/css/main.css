@@ -1,7 +1,9 @@
-/* Box sizing rules */
+/* Box sizing and reset */
 *,
 *::before,
 *::after {
+	margin: 0;
+	padding: 0;
 	box-sizing: border-box;
 }
 
@@ -147,13 +149,6 @@ textarea:not([rows]) {
     font-weight: 700;
     font-style: italic;
     font-display: swap;
-}
-
-/* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
 }
 
 body {
@@ -613,7 +608,8 @@ body {
     margin-bottom: 4rem !important
 }
 
-.post-item:last-child {
+.post-item:last-child,
+.post-item:only-of-type {
     border-bottom: none;
     padding-bottom: 2rem;
     margin-bottom: 0 !important;
@@ -689,7 +685,8 @@ body {
 }
 
 .pagination-home {
-    margin-top: 0;
+    margin-top: 2rem;
+    margin-bottom: 2.5rem;
 }
 
 .pagination-post .pagination-item {
@@ -701,6 +698,11 @@ body {
     text-align: right;
 }
 
+.pagination-home .pagination-item:last-child {
+    text-align: left;
+}
+
+.pagination-home h4,
 .pagination-post h4 {
     font-size: 1.7rem;
     font-weight: 700;
@@ -1368,47 +1370,6 @@ details[open] summary {
     font-size: 1.4rem;
 }
 
-.site-footer .footer-search {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-}
-
-.site-footer .footer-search input[type="search"] {
-    padding: 0.5rem 0.75rem;
-    font-size: 1.4rem;
-    color: var(--text-color);
-    background-color: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    min-width: 16rem;
-    height: 2.8rem;
-    box-sizing: border-box;
-}
-
-.site-footer .footer-search input[type="search"]:focus {
-    outline: none;
-    border-color: var(--accent-color);
-}
-
-.site-footer .footer-search button {
-    padding: 0.5rem 1rem;
-    font-size: 1.4rem;
-    color: var(--bg-color);
-    background-color: var(--accent-color);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-}
-
-.site-footer .footer-search button:hover {
-    background-color: var(--hover-color);
-}
-
 .visually-hidden {
     position: absolute;
     width: 1px;
@@ -1423,19 +1384,6 @@ details[open] summary {
 
 .container h1.search-results-heading {
     margin-bottom: 3rem;
-}
-
-.site-footer .footer-search button.footer-search-submit {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 0.9rem;
-    height: 2.8rem;
-    box-sizing: border-box;
-}
-
-.site-footer .footer-search button.footer-search-submit svg {
-    display: block;
 }
 
 /* Mobile Responsive */
