@@ -54,7 +54,7 @@
       <guid>{{ .Permalink }}</guid>
       <description>
         {{ .Content | html }}
-        {{ printf "<![CDATA[<hr /><p>Comment by <a href=\"mailto:hello@jimmitchell.org\">Email</a> or <a href=\"https://mastodon.social/@jimmitchell\">Mastodon</a>.</p>]]>" | safeHTML }}
+        {{ printf "<![CDATA[<hr /><p>Comment by <a href=\"mailto:hello@jimmitchell.org\">Email</a> or <a href=\"https://indieweb.social/@jimmitchell\">Mastodon</a>.</p>]]>" | safeHTML }}
       </description>
     </item>
     {{- end }}
