@@ -21,10 +21,6 @@
 {{- with .Site.Params.mastodonProfile }}
 <link rel="me" href="{{ . }}">
 {{- end }}
-<link rel="preload" href="{{ "fonts/ProximaNova-Regular.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="{{ "fonts/ProximaNova-Bold.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="{{ "fonts/ProximaNova-Italic.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="{{ "fonts/ProximaNova-BoldItalic.woff2" | relURL }}" as="font" type="font/woff2" crossorigin>
 <script>
     // Prevent flash of white in dark mode by applying theme immediately
     (function() {
